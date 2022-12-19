@@ -1,12 +1,12 @@
 FROM python:3.8
 
-#RUN pip install git+ssh://git@gitlab.just-ai.com/mpl-public/mpl-python-sdk.git@separate-sdk#mpl_sdk
+RUN mkdir $HOME/.ssh && chmod 700 $HOME/.ssh
+RUN ssh-keyscan -H gitlab.just-ai.com >> $HOME/.ssh/known_hosts
 
-# TODO: ssh keys?
-COPY requirements.txt        /app
-RUN pip install -r requirements.txt
+COPY requirements.txt .
+RUN --mount=type=ssh pip install -r ./requirements.txt
 
-COPY src      /app
+COPY src /app
 WORKDIR /app
 
 ENTRYPOINT ["python", "ActionExample.py"]
