@@ -1,12 +1,12 @@
-from caila_gate.CailaActionSDK import CailaActionSDK
-from caila_gate.proto import gate_pb2
+from caila_sdk.transport.CailaActionSDK import CailaActionSDK
+from caila_sdk.grpc import mpl_grpc_pb2
 from pydantic import BaseModel
 
-class QuestionRequest:
+class QuestionRequest(BaseModel):
     context: str
     answer: str
 
-class QuestionResponse:
+class QuestionResponse(BaseModel):
     question: str
 
 
@@ -15,15 +15,15 @@ class MyService:
         return {"main.proto": "content of a file"}
 
     def get_descriptor(self):
-        return gate_pb2.ActionDescriptorProto(
+        return mpl_grpc_pb2.ActionDescriptorProto(
             name="question-generator",
             fittable=False,
-            methods={"predict": gate_pb2.MethodDescriptorProto(
+            methods={"predict": mpl_grpc_pb2.MethodDescriptorProto(
                 input={
-                    "data": gate_pb2.ParamDescriptorProto(type="QuestionRequest"),
-                    "config": gate_pb2.ParamDescriptorProto(type="QuestionRequest"),
+                    "data": mpl_grpc_pb2.ParamDescriptorProto(type="QuestionRequest"),
+                    "config": mpl_grpc_pb2.ParamDescriptorProto(type="QuestionRequest"),
                 },
-                output=gate_pb2.ParamDescriptorProto(type="QuestionResponse"),
+                output=mpl_grpc_pb2.ParamDescriptorProto(type="QuestionResponse"),
             )}
         )
 

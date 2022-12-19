@@ -1,15 +1,12 @@
 FROM python:3.8
 
-WORKDIR /app
+#RUN pip install git+ssh://git@gitlab.just-ai.com/mpl-public/mpl-python-sdk.git@separate-sdk#mpl_sdk
 
-# 1. install whole list of dependencies except of caila-transport
+# TODO: ssh keys?
 COPY requirements.txt        /app
-RUN grep -v "caila-transport" requirements.txt | xargs pip install
-
-# 2. install caila_transport from wheel
-COPY caila_transport-*.whl        /app
-RUN pip install caila_transport-*.whl
+RUN pip install -r requirements.txt
 
 COPY src      /app
+WORKDIR /app
 
 ENTRYPOINT ["python", "ActionExample.py"]
