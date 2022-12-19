@@ -6,7 +6,7 @@ RUN ssh-keyscan -H gitlab.just-ai.com >> $HOME/.ssh/known_hosts
 COPY requirements.txt .
 RUN --mount=type=ssh pip install -r ./requirements.txt
 
-COPY src /app
+COPY ActionExample.py /app
 WORKDIR /app
 
 ENTRYPOINT ["python", "ActionExample.py"]

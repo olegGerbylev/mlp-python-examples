@@ -1,7 +1,8 @@
-from caila_gate.CailaClientSDK import CailaClientSDK
+from caila_sdk.transport.CailaClientSDK import CailaClientSDK
 
 # You should specify env variables CAILA_URL and CAILA_TOKEN before run
 sdk = CailaClientSDK()
 sdk.init()
-res = sdk.invoke("1000542", "test", "\"hello\"")
-print(res.predict.data.json)
+res = sdk.predict("just-ai", "test-action", "\"hello\"")
+
+print(str(res))

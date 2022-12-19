@@ -1,4 +1,1 @@
-grpcio==1.42.0
-grpcio-tools==1.42.0
-protobuf>=3.18.0,<4.0dev
-caila-transport>=1.0.0
+git+ssh://git@gitlab.just-ai.com/mpl-public/mpl-python-sdk.git@separate-sdk#mpl_sdk
