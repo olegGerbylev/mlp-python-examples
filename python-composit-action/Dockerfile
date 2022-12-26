@@ -9,4 +9,4 @@ RUN --mount=type=ssh pip install -r ./requirements.txt
 COPY ActionExample.py /app
 WORKDIR /app
 
-ENTRYPOINT ["python", "ActionExample.py"]
+ENTRYPOINT ["python", "composit_action_example.py"]
