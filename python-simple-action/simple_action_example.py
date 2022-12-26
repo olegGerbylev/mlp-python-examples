@@ -1,9 +1,8 @@
 from typing import Type
 
-from pydantic import BaseModel
-
 from mpl_sdk.abstract import Task
-from mpl_sdk.hosting.host import host
+from mpl_sdk.transport.MplActionSDK import MplActionSDK
+from pydantic import BaseModel
 
 
 class PredictRequest(BaseModel):
@@ -34,4 +33,7 @@ class SimpleActionExample(Task):
 
 
 if __name__ == "__main__":
-    host(SimpleActionExample, BaseModel(), 5000)
+    sdk = MplActionSDK()
+    sdk.register_impl(SimpleActionExample(BaseModel()))
+    sdk.start()
+    sdk.block_until_shutdown()

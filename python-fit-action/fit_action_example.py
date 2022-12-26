@@ -2,6 +2,7 @@ import pickle
 from pathlib import Path
 from typing import Union, Type
 
+from mpl_sdk.transport.MplActionSDK import MplActionSDK
 from pydantic import BaseModel
 
 from mpl_sdk.abstract import Task
@@ -86,6 +87,7 @@ class FitActionExample(Task):
             raise ValueError(f'Inconsistent data sizes')
 
         self.model = FittedMLModel(self._prepareModelData(train_data.texts, targets.items_list))
+        self._save_state()
         self.is_fitted_model = True
 
     def predict(self, data: PredictRequest, config: BaseModel) -> PredictResponse:
@@ -97,6 +99,10 @@ class FitActionExample(Task):
         for i in len(texts):
             data[texts[i]] = items_list[i]
         return data
+
+    def _save_state(self):
+        with self.storage.open(self.model_path, 'wb') as fout:
+            pickle.dump(self.model, fout)
 
     def _load_state(self):
         with self.storage.open(self.model_path, 'rb') as fin:
@@ -114,4 +120,7 @@ class FittedMLModel:
 
 
 if __name__ == "__main__":
-    host(FitActionExample, BaseModel(), 5000)
+    sdk = MplActionSDK()
+    sdk.register_impl(FittedMLModel(BaseModel()))
+    sdk.start()
+    sdk.block_until_shutdown()

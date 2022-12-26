@@ -3,7 +3,7 @@ from typing import Type
 from pydantic import BaseModel
 
 from mpl_sdk.abstract import Task
-from mpl_sdk.transport.MplActionSDK import PipelineClient
+from mpl_sdk.transport.MplActionSDK import PipelineClient, MplActionSDK
 
 
 class CompositeActionRequest(BaseModel):
@@ -47,3 +47,10 @@ class CompositActionExample(Task):
         punctuationModelResponse = self.pipeline_client.predict(account=ACCOUNT, model=PUNCTUATION_MODEL,
                                                                 data=grammarModelResponse, config=config)
         return CompositeActionResponse(value=punctuationModelResponse.data)
+
+
+if __name__ == "__main__":
+    sdk = MplActionSDK()
+    sdk.register_impl(CompositActionExample(sdk.pipeline_client, BaseModel()))
+    sdk.start()
+    sdk.block_until_shutdown()
