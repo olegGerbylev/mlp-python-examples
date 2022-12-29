@@ -2,15 +2,13 @@ import pickle
 from pathlib import Path
 from typing import Union, Type
 
-from mpl_sdk.transport.MplActionSDK import MplActionSDK
-from pydantic import BaseModel
-
 from mpl_sdk.abstract import Task
-from mpl_sdk.hosting.host import host
 from mpl_sdk.storage.local_storage import LocalStorage
 from mpl_sdk.storage.s3_storage import S3Storage
+from mpl_sdk.transport.MplActionSDK import MplActionSDK
 from mpl_sdk.types import ItemsCollection, TextsCollection
 from mpl_sdk.utilities.misc import get_env
+from pydantic import BaseModel
 
 
 class PredictResponse(BaseModel):
@@ -70,7 +68,7 @@ class FitActionExample(Task):
         except KeyError as e:
             print(f'Unable to load saved state, error message: {str(e)}')
 
-    def _fit(
+    def fit(
             self,
             train_data: TextsCollection,
             targets: ItemsCollection,
