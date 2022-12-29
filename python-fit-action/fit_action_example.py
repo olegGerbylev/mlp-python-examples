@@ -84,8 +84,11 @@ class FitActionExample(Task):
         if num_samples != num_targets:
             raise ValueError(f'Inconsistent data sizes')
 
-        self.model = FittedMLModel(self._prepareModelData(train_data.texts, targets.items_list))
-        self._save_state()
+        try:
+            self.model = FittedMLModel(self._prepareModelData(train_data.texts, targets.items_list))
+            self._save_state()
+        except:
+            print("fit execution error")
         self.is_fitted_model = True
 
     def predict(self, data: PredictRequest, config: BaseModel) -> PredictResponse:
