@@ -1,7 +1,7 @@
 from typing import Type
 
-from mpl_sdk.abstract import Task
-from mpl_sdk.transport.MplActionSDK import MplActionSDK
+from mlp_sdk.abstract import Task
+from mlp_sdk.transport.MplActionSDK import MplActionSDK
 from pydantic import BaseModel
 
 

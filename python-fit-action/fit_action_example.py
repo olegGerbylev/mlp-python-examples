@@ -2,12 +2,12 @@ import pickle
 from pathlib import Path
 from typing import Union, Type
 
-from mpl_sdk.abstract import Task
-from mpl_sdk.storage.local_storage import LocalStorage
-from mpl_sdk.storage.s3_storage import S3Storage
-from mpl_sdk.transport.MplActionSDK import MplActionSDK
-from mpl_sdk.types import ItemsCollection, TextsCollection
-from mpl_sdk.utilities.misc import get_env
+from mlp_sdk.abstract import Task
+from mlp_sdk.storage.local_storage import LocalStorage
+from mlp_sdk.storage.s3_storage import S3Storage
+from mlp_sdk.transport.MplActionSDK import MplActionSDK
+from mlp_sdk.types import ItemsCollection, TextsCollection
+from mlp_sdk.utilities.misc import get_env
 from pydantic import BaseModel
 
 

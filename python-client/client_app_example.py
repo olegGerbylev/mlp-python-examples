@@ -1,4 +1,4 @@
-from mpl_sdk.transport.MplClientSDK import MplClientSDK
+from mlp_sdk.transport.MplClientSDK import MplClientSDK
 
 
 class PredictRequest:

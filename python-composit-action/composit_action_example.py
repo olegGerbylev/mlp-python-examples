@@ -2,8 +2,8 @@ from typing import Type
 
 from pydantic import BaseModel
 
-from mpl_sdk.abstract import Task
-from mpl_sdk.transport.MplActionSDK import PipelineClient, MplActionSDK
+from mlp_sdk.abstract import Task
+from mlp_sdk.transport.MplActionSDK import PipelineClient, MplActionSDK
 
 
 class CompositeActionRequest(BaseModel):
