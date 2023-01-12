@@ -1,4 +1,4 @@
-from mlp_sdk.transport.MplClientSDK import MplClientSDK
+from mlp_sdk.transport.MlpClientSDK import MlpClientSDK
 
 
 class PredictRequest:
@@ -13,6 +13,6 @@ class PredictRequest:
 ACCOUNT = "your_account"
 MODEL = "model_to_invoke_predict"
 
-sdk = MplClientSDK()
+sdk = MlpClientSDK()
 sdk.init()
 predict_result = sdk.predict(account=ACCOUNT, model=MODEL, data=PredictRequest(action="predict", name="Elon"))

@@ -1,8 +1,10 @@
 import pickle
+from abc import ABC
 from pathlib import Path
 from typing import Union, Type
 
-from mlp_sdk.abstract import Task
+from mlp_sdk.abstract import Task, LearnableMixin
+from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.storage.local_storage import LocalStorage
 from mlp_sdk.storage.s3_storage import S3Storage
 from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
@@ -25,28 +27,28 @@ class PredictRequest(BaseModel):
         self.image = image
 
 
-class FitActionExample(Task):
+class FitActionExample(Task, LearnableMixin):
 
     @property
-    def init_config_schema(self) -> Type[BaseModel]:
+    def get_fit_config_schema(self) -> Type[BaseModel]:
         return BaseModel
 
     def get_storage(self, model_dir: str = '') -> Union[LocalStorage, S3Storage]:
-        storage_type = get_env('MPL_STORAGE_TYPE')
-        storage_dir = get_env('MPL_STORAGE_DIR') if len(model_dir) == 0 else model_dir
+        storage_type = get_env('MLP_STORAGE_TYPE')
+        storage_dir = get_env('MLP_STORAGE_DIR') if len(model_dir) == 0 else model_dir
 
         if storage_type == LocalStorage.name():
             storage = LocalStorage(path=Path(storage_dir))
 
         elif storage_type == S3Storage.name():
             storage = S3Storage(
-                bucket=get_env('MPL_S3_BUCKET'),
+                bucket=get_env('MLP_S3_BUCKET'),
                 data_dir=storage_dir,
                 service_name='s3',
-                region=get_env('MPL_S3_REGION', ''),
-                access_key=get_env('MPL_S3_ACCESS_KEY'),
-                secret_key=get_env('MPL_S3_SECRET_KEY'),
-                endpoint=get_env('MPL_S3_ENDPOINT'),
+                region=get_env('MLP_S3_REGION', ''),
+                access_key=get_env('MLP_S3_ACCESS_KEY'),
+                secret_key=get_env('MLP_S3_SECRET_KEY'),
+                endpoint=get_env('MLP_S3_ENDPOINT'),
             )
 
         else:
@@ -55,9 +57,10 @@ class FitActionExample(Task):
 
         return storage
 
-    def __init__(self, config: BaseModel) -> None:
-        super().__init__(config)
+    def __init__(self, config: BaseModel, service_sdk: MlpServiceSDK = None) -> None:
+        super().__init__(config, service_sdk)
 
+        self.model = FittedMLModel(dict())
         self.storage = self.get_storage()
         self.model_path = 'model.pkl'
 
@@ -110,6 +113,15 @@ class FitActionExample(Task):
             self.model = pickle.loads(fin.read())
         self.is_fitted_model = True
 
+    def prune_state(self, model_dir: str = '') -> None:
+        remove_path = model_dir if len(model_dir) > 0 else get_env('MLP_STORAGE_DIR')
+        storage = self.get_storage(remove_path)
+        storage.remove(self.model_path)
+
+    @property
+    def is_fitted(self):
+        return self.is_fitted_model
+
 
 class FittedMLModel:
 
@@ -121,7 +133,4 @@ class FittedMLModel:
 
 
 if __name__ == "__main__":
-    sdk = MlpServiceSDK()
-    sdk.register_impl(FittedMLModel(BaseModel()))
-    sdk.start()
-    sdk.block_until_shutdown()
+    host_mlp_cloud(FitActionExample, BaseModel())

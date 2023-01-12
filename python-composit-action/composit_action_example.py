@@ -1,9 +1,7 @@
-from typing import Type
-
-from pydantic import BaseModel
-
 from mlp_sdk.abstract import Task
-from mlp_sdk.transport.MlpServiceSDK import PipelineClient, MlpServiceSDK
+from mlp_sdk.hosting.host import host_mlp_cloud
+from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
+from pydantic import BaseModel
 
 
 class CompositeActionRequest(BaseModel):
@@ -34,12 +32,8 @@ PUNCTUATION_MODEL = "your_punctuation_model"
 
 class CompositActionExample(Task):
 
-    def __init__(self, pipeline_client: PipelineClient, config: BaseModel):
-        self.pipeline_client = pipeline_client
-
-    @property
-    def init_config_schema(self) -> Type[BaseModel]:
-        return BaseModel
+    def __init__(self, config: BaseModel, service_sdk: MlpServiceSDK = None) -> None:
+        super().__init__(config, service_sdk)
 
     def predict(self, data: CompositeActionRequest, config: BaseModel) -> CompositeActionResponse:
         grammarModelResponse = self.pipeline_client.predict(account=ACCOUNT, model=GRAMMAR_MODEL, data=data,
@@ -50,7 +44,4 @@ class CompositActionExample(Task):
 
 
 if __name__ == "__main__":
-    sdk = MlpServiceSDK()
-    sdk.register_impl(CompositActionExample(sdk.pipeline_client, BaseModel()))
-    sdk.start()
-    sdk.block_until_shutdown()
+    host_mlp_cloud(CompositActionExample, BaseModel())
