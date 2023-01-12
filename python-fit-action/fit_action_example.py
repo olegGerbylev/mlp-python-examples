@@ -5,7 +5,7 @@ from typing import Union, Type
 from mlp_sdk.abstract import Task
 from mlp_sdk.storage.local_storage import LocalStorage
 from mlp_sdk.storage.s3_storage import S3Storage
-from mlp_sdk.transport.MplActionSDK import MplActionSDK
+from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
 from mlp_sdk.types import ItemsCollection, TextsCollection
 from mlp_sdk.utilities.misc import get_env
 from pydantic import BaseModel
@@ -118,7 +118,7 @@ class FittedMLModel:
 
 
 if __name__ == "__main__":
-    sdk = MplActionSDK()
+    sdk = MlpServiceSDK()
     sdk.register_impl(FittedMLModel(BaseModel()))
     sdk.start()
     sdk.block_until_shutdown()

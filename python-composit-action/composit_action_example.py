@@ -3,7 +3,7 @@ from typing import Type
 from pydantic import BaseModel
 
 from mlp_sdk.abstract import Task
-from mlp_sdk.transport.MplActionSDK import PipelineClient, MplActionSDK
+from mlp_sdk.transport.MlpServiceSDK import PipelineClient, MlpServiceSDK
 
 
 class CompositeActionRequest(BaseModel):
@@ -50,7 +50,7 @@ class CompositActionExample(Task):
 
 
 if __name__ == "__main__":
-    sdk = MplActionSDK()
+    sdk = MlpServiceSDK()
     sdk.register_impl(CompositActionExample(sdk.pipeline_client, BaseModel()))
     sdk.start()
     sdk.block_until_shutdown()

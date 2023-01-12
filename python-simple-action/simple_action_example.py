@@ -1,7 +1,7 @@
 from typing import Type
 
 from mlp_sdk.abstract import Task
-from mlp_sdk.transport.MplActionSDK import MplActionSDK
+from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
 from pydantic import BaseModel
 
 
@@ -33,7 +33,7 @@ class SimpleActionExample(Task):
 
 
 if __name__ == "__main__":
-    sdk = MplActionSDK()
+    sdk = MlpServiceSDK()
     sdk.register_impl(SimpleActionExample(BaseModel()))
     sdk.start()
     sdk.block_until_shutdown()
