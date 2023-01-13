@@ -1,1 +1,0 @@
-git+ssh://git@gitlab.just-ai.com/mpl-public/mpl-python-sdk.git@separate-sdk#mpl_sdk
