@@ -1,5 +1,4 @@
 import pickle
-from abc import ABC
 from pathlib import Path
 from typing import Union, Type
 
@@ -96,12 +95,12 @@ class FitActionExample(Task, LearnableMixin):
 
     def predict(self, data: PredictRequest, config: BaseModel) -> PredictResponse:
         predict = self.model.predict(data.image)
-        return PredictResponse(value=predict)
+        return PredictResponse(value=str(predict))
 
     def _prepareModelData(self, texts: [str], items_list: [str]):
         data = dict()
-        for i in len(texts):
-            data[texts[i]] = items_list[i]
+        for idx, x in enumerate(texts):
+            data[x] = items_list[idx]
         return data
 
     def _save_state(self):
