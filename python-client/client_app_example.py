@@ -15,4 +15,4 @@ MODEL = "model_to_invoke_predict"
 
 sdk = MlpClientSDK()
 sdk.init()
-predict_result = sdk.predict(account=ACCOUNT, model=MODEL, data=PredictRequest(action="predict", name="Elon"))
+predict_result = sdk.predict(account=ACCOUNT, model=MODEL, texts=PredictRequest(action="predict", name="Elon"))

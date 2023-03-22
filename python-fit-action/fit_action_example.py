@@ -7,30 +7,12 @@ from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.storage.local_storage import LocalStorage
 from mlp_sdk.storage.s3_storage import S3Storage
 from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
-from mlp_sdk.types import ItemsCollection, TextsCollection
+from mlp_sdk.types import ItemsCollection, TextsCollection, Items, Item
 from mlp_sdk.utilities.misc import get_env
 from pydantic import BaseModel
 
 
-class PredictResponse(BaseModel):
-    value: str
-
-    def __int__(self, value):
-        self.value = value
-
-
-class PredictRequest(BaseModel):
-    image: str
-
-    def __int__(self, image):
-        self.image = image
-
-
 class FitActionExample(Task, LearnableMixin):
-
-    @property
-    def get_fit_config_schema(self) -> Type[BaseModel]:
-        return BaseModel
 
     def get_storage(self, model_dir: str = '') -> Union[LocalStorage, S3Storage]:
         storage_type = get_env('MLP_STORAGE_TYPE')
@@ -93,9 +75,14 @@ class FitActionExample(Task, LearnableMixin):
             print("fit execution error")
         self.is_fitted_model = True
 
-    def predict(self, data: PredictRequest, config: BaseModel) -> PredictResponse:
-        predict = self.model.predict(data.image)
-        return PredictResponse(value=str(predict))
+    def predict(self, data: TextsCollection, config: BaseModel) -> ItemsCollection:
+        result_list = []
+        for text in data.texts:
+            predict_result = self.model.predict(text).items[0].value
+            item_list = [Item(value=str(predict_result))]
+            result_list.append(Items(items=item_list))
+
+        return ItemsCollection(items_list=result_list)
 
     def _prepareModelData(self, texts: [str], items_list: [str]):
         data = dict()
