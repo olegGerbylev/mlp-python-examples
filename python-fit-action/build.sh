@@ -1,15 +1,12 @@
 #!/bin/bash
 
-ROOT=$(dirname $0)
-cd $ROOT
+ACTION_NAME=fit-action-example
 
-ACTION_NAME=gate-python-action1
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
-IMAGE=docker-hub.just-ai.com/caila-actions/$ACTION_NAME:$BRANCH
+eval $(ssh-agent)
+ssh-add $HOME/.ssh/id_rsa
+IMAGE=docker-hub.just-ai.com/caila-actions/$ACTION_NAME:$BRANCH_NAME
 DOCKER_BUILDKIT=1 docker build . --ssh default -t $IMAGE
 
 echo $IMAGE
 
-#docker push $IMAGE
-
+docker push $IMAGE
