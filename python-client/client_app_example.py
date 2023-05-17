@@ -1,18 +1,12 @@
 from mlp_sdk.transport.MlpClientSDK import MlpClientSDK
+from mlp_sdk.types import TextsCollection
 
-
-class PredictRequest:
-    action: str
-    name: str
-
-    def __init__(self, action, name):
-        self.action = action
-        self.name = name
-
-
-ACCOUNT = "your_account"
-MODEL = "model_to_invoke_predict"
+ACCOUNT = "just-ai"
+MODEL = "platform-vectorizer-ru-test"
 
 sdk = MlpClientSDK()
 sdk.init()
-predict_result = sdk.predict(account=ACCOUNT, model=MODEL, texts=PredictRequest(action="predict", name="Elon"))
+req = TextsCollection(texts=["Hello"])
+res = sdk.predict(account=ACCOUNT, model=MODEL, data=req.json())
+print(res)
+sdk.shutdown()
