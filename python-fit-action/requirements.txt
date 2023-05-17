@@ -1,1 +1,1 @@
-git+ssh://git@gitlab.just-ai.com/ml-platform-pub/mlp-python-sdk.git@separate-sdk#mlp_sdk
+git+ssh://git@gitlab.just-ai.com/ml-platform-pub/mlp-python-sdk.git@dev#mlp_sdk
