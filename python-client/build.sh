@@ -17,4 +17,4 @@ docker build . --ssh default -t "$IMAGE"
 
 echo "$IMAGE"
 
-#docker push "$IMAGE"
+docker push "$IMAGE"
