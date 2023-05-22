@@ -12,9 +12,9 @@ pipeline {
 
     parameters {
         extendedChoice(name: 'COMPONENTS',
-                value: 'python-composite-action,python-fit-action,python-simple-action',
-                defaultValue: 'python-composite-action,python-fit-action,python-simple-action',
-                description: '', descriptionPropertyValue: '', multiSelectDelimiter: ',', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_MULTI_SELECT', visibleItemCount: 3)
+                value: 'python-client,python-composite-action,python-fit-action,python-rest-client,python-simple-action',
+                defaultValue: 'python-client,python-composite-action,python-fit-action,python-rest-client,python-simple-action',
+                description: '', descriptionPropertyValue: '', multiSelectDelimiter: ',', quoteValue: false, saveJSONParameterToFile: false, type: 'PT_MULTI_SELECT', visibleItemCount: 5)
     }
     stages {
         stage('notify gitlab') {
