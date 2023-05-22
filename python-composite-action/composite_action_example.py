@@ -13,7 +13,7 @@ class TextsCollection(BaseModel):
     texts: List[str]
 
 
-ACCOUNT = "caila-rfrit"
+ACCOUNT = "just-ai"
 GRAMMAR_SERVICE = "spellcheck"
 PUNCTUATION_SERVICE = "punctuation"
 
