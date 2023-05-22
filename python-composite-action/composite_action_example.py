@@ -41,7 +41,7 @@ class CompositeActionExample(Task):
         return self.__punctuate_texts(corrected_texts)
 
     def __correct_texts(self, texts: TextsCollection) -> TextsCollection:
-        request_data_json = json.dumps({"texts": texts.texts})
+        request_data_json = json.dumps(texts)
 
         predict_result = self.rest_client.processApi.predict(
             body=request_data_json,
@@ -53,7 +53,7 @@ class CompositeActionExample(Task):
         return TextsCollection(texts=corrected_texts_list)
 
     def __punctuate_texts(self, texts: TextsCollection) -> TextsCollection:
-        request_data_json = json.dumps({"texts": texts.texts})
+        request_data_json = json.dumps(texts)
 
         predict_result = self.rest_client.processApi.predict(
             body=request_data_json,
