@@ -7,7 +7,7 @@ BRANCH=$(echo $1 | tr '[:upper:]' '[:lower:]')
 
 ./set_mlp_sdk_version.sh "$BRANCH"
 
-ACTION_NAME=rest_client_example
+ACTION_NAME=client-app-example
 
 eval $(ssh-agent)
 ssh-add "$HOME"/.ssh/id_rsa

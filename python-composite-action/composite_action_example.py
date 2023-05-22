@@ -5,6 +5,7 @@ from mlp_sdk.abstract import Task
 from mlp_sdk.grpc import mlp_grpc_pb2
 from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
+from mlp_sdk.transport.MlpClientSDK import MlpRestClient
 from pydantic import BaseModel
 
 
@@ -21,6 +22,7 @@ class CompositeActionExample(Task):
 
     def __init__(self, config: BaseModel, service_sdk: MlpServiceSDK = None) -> None:
         super().__init__(config, service_sdk)
+        self.rest_client = MlpRestClient()
 
     def get_descriptor(self):
         return mlp_grpc_pb2.ServiceDescriptorProto(
@@ -40,18 +42,24 @@ class CompositeActionExample(Task):
 
     def __correct_texts(self, texts: TextsCollection) -> TextsCollection:
         request_data_json = json.dumps({"texts": texts.texts})
-        response = self.pipeline_client.predict(account=ACCOUNT, model=GRAMMAR_SERVICE, data=request_data_json,
-                                                config=None).result()
-        response_json = response.predict.data.json
+
+        predict_result = self.rest_client.processApi.predict(
+            body=request_data_json,
+            path_params={'account': ACCOUNT, 'model': GRAMMAR_SERVICE}
+        )
+        response_json = predict_result.body
 
         corrected_texts_list = json.loads(response_json)["corrected_texts"]
         return TextsCollection(texts=corrected_texts_list)
 
     def __punctuate_texts(self, texts: TextsCollection) -> TextsCollection:
         request_data_json = json.dumps({"texts": texts.texts})
-        response = self.pipeline_client.predict(account=ACCOUNT, model=PUNCTUATION_SERVICE, data=request_data_json,
-                                                config=None).result()
-        response_json = response.predict.data.json
+
+        predict_result = self.rest_client.processApi.predict(
+            body=request_data_json,
+            path_params={'account': ACCOUNT, 'model': PUNCTUATION_SERVICE}
+        )
+        response_json = predict_result.body
 
         punctuated_texts_list = json.loads(response_json)["texts"]
         return TextsCollection(texts=punctuated_texts_list)

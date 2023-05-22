@@ -34,7 +34,7 @@ pipeline {
                                 echo "========================================================="
                                 echo cmp
                                 try {
-                                    sh """cd ${WORKSPACE}/${cmp} && sh ./build.sh"""
+                                    sh """cd ${WORKSPACE}/${cmp} && sh ./build.sh ${env.BRANCH_NAME}"""
                                 } catch(Exception e) {
                                     catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                                         error("build ${cmp} failed.")
