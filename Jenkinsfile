@@ -7,7 +7,7 @@ pipeline {
         timestamps()
     }
     agent {
-        label 'caila-build-agent'
+        label 'caila-dev-cloud-agent'
     }
 
     parameters {
