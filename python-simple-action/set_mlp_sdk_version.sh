@@ -11,4 +11,4 @@ else
   MLP_SDK_VERSION=dev
 fi
 
-sed -i "s/git+ssh:\\/\\/git@gitlab.just-ai.com\\/ml-platform-pub\\/mlp-python-sdk.git@dev/git+ssh:\\/\\/git@gitlab.just-ai.com\\/ml-platform-pub\\/mlp-python-sdk.git@${MLP_SDK_VERSION}/" requirements.txt
+sed -i "s/git+https:\\/\\/git@gitlab.just-ai.com\\/ml-platform-pub\\/mlp-python-sdk.git@dev/git+https:\\/\\/git@gitlab.just-ai.com\\/ml-platform-pub\\/mlp-python-sdk.git@${MLP_SDK_VERSION}/" requirements.txt
