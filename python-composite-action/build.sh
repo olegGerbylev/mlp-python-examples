@@ -4,16 +4,12 @@ ROOT=$(dirname $0)
 cd "$ROOT"
 
 BRANCH=$(echo $1 | tr '[:upper:]' '[:lower:]')
+ACTION_NAME=composite-action-example
+IMAGE=docker-hub.just-ai.com/caila-actions/$ACTION_NAME:$BRANCH
 
 ./set_mlp_sdk_version.sh "$BRANCH"
 
-ACTION_NAME=composite-action-example
-
-eval $(ssh-agent)
-ssh-add "$HOME"/.ssh/id_rsa
-IMAGE=docker-hub.just-ai.com/caila-actions/$ACTION_NAME:$BRANCH
-DOCKER_BUILDKIT=1 \
-docker build . --ssh default -t "$IMAGE"
+DOCKER_BUILDKIT=1 docker build . -t "$IMAGE"
 
 echo "$IMAGE"
 
