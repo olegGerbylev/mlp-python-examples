@@ -7,7 +7,7 @@ from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.storage.local_storage import LocalStorage
 from mlp_sdk.storage.s3_storage import S3Storage
 from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
-from mlp_sdk.types import ItemsCollection, TextsCollection, Items, Item
+from mlp_sdk.types import ItemsCollection, TextsCollection, Items, Item, ServiceInfo, DatasetInfo
 from mlp_sdk.utilities.misc import get_env
 from pydantic import BaseModel
 
@@ -57,6 +57,8 @@ class FitActionExample(Task, LearnableMixin):
             train_data: TextsCollection,
             targets: ItemsCollection,
             config: BaseModel,
+            target_service_info: ServiceInfo,
+            dataset_info: DatasetInfo,
             model_dir: str,
             previous_model_dir: str,
     ) -> None:
