@@ -1,3 +1,7 @@
+import io
+import re
+from contextlib import redirect_stdout
+
 from mlp_sdk.abstract import Task
 from mlp_sdk.hosting.host import host_mlp_cloud
 from mlp_sdk.transport.MlpServiceSDK import MlpServiceSDK
@@ -142,9 +146,9 @@ def calc_loss(opm):
     loss_enclosed_energy_all=loss_enclosed_energy_all/temp
     loss_rms_all=loss_rms_all/temp
     loss=loss_focus+loss_FD+loss_total_length+loss_min_thickness+loss_min_thickness_air+loss_enclosed_energy_all+loss_rms_all
-    layout_plt0 = plt.figure(FigureClass=InteractiveLayout, opt_model=opm,
-                            do_draw_rays=True, do_paraxial_layout=False,
-                            is_dark=isdark).plot()
+    # layout_plt0 = plt.figure(FigureClass=InteractiveLayout, opt_model=opm,
+    #                         do_draw_rays=True, do_paraxial_layout=False,
+    #                         is_dark=isdark).plot()
     return(loss)
 
 def calc_loss_by_point(point):
