@@ -128,7 +128,7 @@ class RandomSearch: MlpServiceBase<Payload, RSRequestData, EmptyData, EmptyData,
                             kotlin.runCatching {
                         val lossRequest = LossFunctionRequest(p)
                             val res = try {
-                                semaphore.withPermit {
+                                semaphore.withPermit
                                     grpcClient.predict(ACCOUNT_ID, req.lossModel, JSON.stringify(lossRequest))
                                 }
                             } catch (e: Exception) {

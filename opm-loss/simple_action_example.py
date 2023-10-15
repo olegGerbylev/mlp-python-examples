@@ -231,7 +231,7 @@ class PredictRequest(BaseModel):
 
 
 class PredictResponse(BaseModel):
-    loss: float
+    loss: List[float]
 
     def __int__(self, loss):
         self.loss = loss
